@@ -13,7 +13,7 @@ const provider = new ethers.providers.JsonRpcProvider(CONTRACTS["blast-sepolia"]
 const abiToken = require("../artifacts/contracts/TokenRevenueSharing.sol/TokenRevenueSharing.json")
 // block 786266: 0xcDed97AbBEe90194449CeC3E8Fb8cC1aCa5a2051
 // block 786273: 0x8e8EDe548DE537659A823c199164C084BD060Aa8
-const addressToken = '0xcdFa7f837d3e59ab5dE72C39177D0BF8CD0Dab6f'
+const addressToken = '0x05e1147F6B7524fEaE00109dc8809C4284007405'
 const contractToken = new ethers.Contract(addressToken, abiToken.abi, provider)
 
 
@@ -29,8 +29,7 @@ var listAddress = [
     '0x6AF2F94290e07014Ab0BC21C4F7c971f1CE539Be',
     '0x0659e243360baE10eD1717E6D0e51fE1CDF4D98d',
     '0xC5AeEE2B6626AC0Fa781d97dF7C16a58aDd16b58',
-    '0x91478893C85f3F8ffa9Ee34a25AC5a7eABa53862',
-    '0x7BA8b9a6C49Ca905AB7b847026bF729bBB78c320'
+    '0x91478893C85f3F8ffa9Ee34a25AC5a7eABa53862'
 ]
 
 var listPriveKey = [
@@ -51,12 +50,17 @@ run()
 async function run(){
     // await mint()
     // await getBalance()
+    // await getOwner()
 
-    // await updatereward()
+    await updatereward()
     // await viewReward()
-    await getReward()
+    // await getReward()
 }
 
+async function getOwner(){
+    var result = await contractToken.owner()
+    console.log(result)
+}
 async function getReward(){
     for(var i = 0 ; i < 2; i++){
         const prive = listPriveKey[i]

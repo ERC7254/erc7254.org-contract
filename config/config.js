@@ -17,11 +17,11 @@ const web3 = new Web3(CONTRACTS["blast-sepolia"]["rpc"])
 const contractWeb3 = new web3.eth.Contract(abiFactory.abi, addressFactory)
 
 
-// block 788845: 0xcdFa7f837d3e59ab5dE72C39177D0BF8CD0Dab6f
+// block 908394: 0x05e1147F6B7524fEaE00109dc8809C4284007405
 run()
 async function run(){
     // await mint()
-    await getPast('788845')
+    await getPast('908394')
 }
 
 async function getPast(block){
@@ -34,6 +34,7 @@ async function mint(){
     var symbol = "TRS"
     var tokenReward = CONTRACTS["blast-sepolia"]["weth"]
     var totalSupply = '100000000000000000000000'
+    // var owner = wallet.address
     const contractSigner = contractFactory.connect(wallet)
     const tx = await contractSigner.create(nameToken, symbol, tokenReward, totalSupply);
     console.log("Mining transaction...");

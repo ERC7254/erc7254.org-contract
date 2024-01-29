@@ -1,6 +1,6 @@
 {
     "blast-sepolia" : {
-        "factory": "0x7BA8b9a6C49Ca905AB7b847026bF729bBB78c320",
+        "factory": "0xCe5B9b966Cb6896efE0c3b6C52DF11016b4CDA93",
         "weth": "0x4200000000000000000000000000000000000023",
         "rpc": "https://rpc.ankr.com/blast_testnet_sepolia"
     }

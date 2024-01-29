@@ -2,14 +2,16 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./erc7254/ERC7254.sol";
 import "./interface/IWETH.sol";
 
-contract TokenRevenueSharing is ERC7254, ReentrancyGuard {
+contract TokenRevenueSharing is ERC7254, ReentrancyGuard, Ownable {
 
     address public WETH = 0x4200000000000000000000000000000000000023;
-    constructor(string memory _name, string memory _symbol, address _tokenReward, uint256 _amount)  ERC7254(_name, _symbol, _tokenReward) {
-        _mint(_msgSender(), _amount);
+    constructor(string memory _name, string memory _symbol, address _tokenReward, address owner, uint256 _amount)  ERC7254(_name, _symbol, _tokenReward) {
+        _mint(owner, _amount);
+        transferOwnership(owner);
     }
 
     function mint(address to, uint256 amount) external {
