@@ -16,17 +16,18 @@ const Web3 = require('web3')
 const web3 = new Web3(CONTRACTS["blast-sepolia"]["rpc"])
 const contractWeb3 = new web3.eth.Contract(abiFactory.abi, addressFactory)
 
-
 // block 908394: 0x05e1147F6B7524fEaE00109dc8809C4284007405
 run()
 async function run(){
     // await mint()
-    await getPast('908394')
+    await getToken()
 }
 
-async function getPast(block){
-    var result = await contractWeb3.getPastEvents("Create", { fromBlock: block, toBlock: block });
-    console.log(result)
+async function getToken(){
+    // var result = await contractWeb3.getPastEvents("Create", { fromBlock: block, toBlock: block });
+    // console.log(result)
+    var result = await contractFactory.allRevenueSharingTokens(1)
+    console.log(result.toString())
 }
 
 async function mint(){

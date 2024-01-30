@@ -20,7 +20,7 @@ async function run(){
     // Transaction to send 0.1 Sepolia ETH
     const tx = {
         to: BlastBridgeAddress,
-        value: ethers.utils.parseEther("0.1")
+        value: ethers.utils.parseEther("2")
     };
 
     const transaction = await sepoliaWallet.sendTransaction(tx);
