@@ -52,9 +52,7 @@ contract TokenRevenueSharing is ERC7254, ReentrancyGuard, Ownable {
                     IWETH(WETH).withdraw(reward / MAX);
                     (bool success,) = to.call{value:reward / MAX}(new bytes(0));
                     require(success, 'TransferHelper: ETH_TRANSFER_FAILED');
-                    // TransferHelper.safeTransferETH(_to, reward);
                 }else{
-                    // TransferHelper.safeTransfer(tokenReward, _to, reward); 
                     (bool success, bytes memory data) = _token[i].call(abi.encodeWithSelector(0xa9059cbb, to, reward / MAX));
                     require(success && (data.length == 0 || abi.decode(data, (bool))), 'TransferHelper: TRANSFER_FAILED');
                 }
@@ -62,4 +60,5 @@ contract TokenRevenueSharing is ERC7254, ReentrancyGuard, Ownable {
             emit GetReward(owner, to, reward / MAX);
         }
     }
+    receive() external payable {}
 }

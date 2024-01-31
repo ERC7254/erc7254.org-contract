@@ -21,7 +21,7 @@ const ethers = require('ethers');
 const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/blast_testnet_sepolia'); 
 
 const abiFactory = require("../../artifacts/contracts/FactoryTokenRevenueSharing.sol/FactoryTokenRevenueSharing.json")
-const addressFactory = '0x3Ff7C614BD1CE904DEda330a1851f4CDB4414361'
+const addressFactory = '0x7f47E53D7eEeB1eC1C5b9ec10db6F172d9e1Dbdd'
 const contractFactory = new ethers.Contract(addressFactory, abiFactory.abi, provider)
 
 var name = [
@@ -63,8 +63,6 @@ async function run(){
         var tokenReward = '0x4200000000000000000000000000000000000023'
         const contractSigner = contractFactory.connect(wallet)
         const tx = await contractSigner.create(name[i], symbol[i], tokenReward, totalSupply);
-        console.log("Mining transaction...");
-        // Waiting for the transaction to be mined
         const receipt = await tx.wait();
         // The transaction is now on chain!
         console.log(`Mined in block ${receipt.blockNumber}`);

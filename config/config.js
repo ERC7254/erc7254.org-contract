@@ -16,24 +16,25 @@ const Web3 = require('web3')
 const web3 = new Web3(CONTRACTS["blast-sepolia"]["rpc"])
 const contractWeb3 = new web3.eth.Contract(abiFactory.abi, addressFactory)
 
-// block 908394: 0x05e1147F6B7524fEaE00109dc8809C4284007405
+// block 993414: 0x05e1147F6B7524fEaE00109dc8809C4284007405
 run()
 async function run(){
-    // await mint()
-    await getToken()
+    // await mint() 
+    await getToken("995273")
 }
 
-async function getToken(){
-    // var result = await contractWeb3.getPastEvents("Create", { fromBlock: block, toBlock: block });
-    // console.log(result)
-    var result = await contractFactory.allRevenueSharingTokens(1)
-    console.log(result.toString())
+async function getToken(block){
+    var result = await contractWeb3.getPastEvents("Create", { fromBlock: block, toBlock: block });
+    console.log(result)
+    // var result = await contractFactory.allRevenueSharingTokens(1)
+    // console.log(result.toString())
 }
 
 async function mint(){
-    var nameToken = "Token Revenue Sharing"
-    var symbol = "TRS"
-    var tokenReward = CONTRACTS["blast-sepolia"]["weth"]
+    var nameToken = "Freax"
+    var symbol = "FREAX"
+    // var tokenReward = CONTRACTS["blast-sepolia"]["weth"]
+    var tokenReward = '0xd2A96305296D9A01D6039662B300706b46bDEE3c'
     var totalSupply = '100000000000000000000000'
     // var owner = wallet.address
     const contractSigner = contractFactory.connect(wallet)

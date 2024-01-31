@@ -13,7 +13,7 @@ const provider = new ethers.providers.JsonRpcProvider(CONTRACTS["blast-sepolia"]
 const abiToken = require("../artifacts/contracts/TokenRevenueSharing.sol/TokenRevenueSharing.json")
 // block 786266: 0xcDed97AbBEe90194449CeC3E8Fb8cC1aCa5a2051
 // block 786273: 0x8e8EDe548DE537659A823c199164C084BD060Aa8
-const addressToken = '0x05e1147F6B7524fEaE00109dc8809C4284007405'
+const addressToken = '0xad570652B9B3cdd8BA598D0F4Bf9632b45b6839f' // token reward: 0xd2A96305296D9A01D6039662B300706b46bDEE3c
 const contractToken = new ethers.Contract(addressToken, abiToken.abi, provider)
 
 
@@ -21,7 +21,7 @@ const contractToken = new ethers.Contract(addressToken, abiToken.abi, provider)
 // wallet2: 0xbb13c0467f51b9f6bdbdcb4bcab61cb2eda56d184a2daf514255f8430517bba5 0xC5AeEE2B6626AC0Fa781d97dF7C16a58aDd16b58
 // wallet3: 0x7bfa0cfb590e6086561de701eae1c6dae17a2bfc74569c63d9229652505056b6 0x91478893C85f3F8ffa9Ee34a25AC5a7eABa53862
 
-const PRIVATE_KEY = '0x7bfa0cfb590e6086561de701eae1c6dae17a2bfc74569c63d9229652505056b6' //process.env.ADMIN
+const PRIVATE_KEY = process.env.ADMIN //process.env.ADMIN
 const wallet = new ethers.Wallet(PRIVATE_KEY, provider)
 var contractSigner = contractToken.connect(wallet)
 
@@ -52,9 +52,20 @@ async function run(){
     // await getBalance()
     // await getOwner()
 
-    await updatereward()
+    // await approve()
+
+    // await updatereward()
     // await viewReward()
-    // await getReward()
+    await getReward()
+    // await getCheck()
+}
+
+async function approve(){
+    var tokenreward = '0xd2A96305296D9A01D6039662B300706b46bDEE3c'
+    const contractApprove = new ethers.Contract(tokenreward, abiToken.abi, provider)
+    var contractSignerApprove = contractApprove.connect(wallet)
+    var tx = await contractSignerApprove.approve(addressToken, '328378993889438498348938944394')
+    await tx.wait()
 }
 
 async function getOwner(){
@@ -62,13 +73,13 @@ async function getOwner(){
     console.log(result)
 }
 async function getReward(){
-    for(var i = 0 ; i < 2; i++){
+    for(var i = 1 ; i < 4; i++){
         const prive = listPriveKey[i]
         const walletlist = new ethers.Wallet(prive, provider)
         var contractSignerList = contractToken.connect(walletlist)
         var weth = CONTRACTS["blast-sepolia"]["weth"]
         var tx = await contractSignerList.getReward([weth], wallet.address)
-        const receipt = await tx.await()
+        const receipt = await tx.wait()
         console.log(receipt.blockNumber)
     }
 }
@@ -82,8 +93,11 @@ async function viewReward(){
 }
 
 async function updatereward(){
-    var weth = CONTRACTS["blast-sepolia"]["weth"]
-    var tx = await contractSigner.updateReward([weth],[0], { value: ethers.utils.parseEther("0.02") });
+    // var weth = CONTRACTS["blast-sepolia"]["weth"]
+    var tokenReward = '0xd2A96305296D9A01D6039662B300706b46bDEE3c'
+    console.log(wallet.address)
+    // var tx = await contractSigner.updateReward([tokenReward],[0], { value: ethers.utils.parseEther("0.002") });
+    var tx = await contractSigner.updateReward([tokenReward], [ethers.utils.parseEther("20")])
     // tx.value = '10000000000000000'
     const receipt = await tx.wait();
     console.log(receipt.blockNumber)
